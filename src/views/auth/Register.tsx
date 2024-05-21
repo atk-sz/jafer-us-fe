@@ -1,11 +1,12 @@
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { loginApi } from "../../api/auth";
+import { registerApi } from "../../api/auth";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/slices/auth";
 
-const Login = () => {
+const Rgister = () => {
+  const [name, setName] = useState<string>("test");
   const [email, setEmail] = useState<string>("test@gmail.com");
   const [password, setPassword] = useState<string>("pass");
 
@@ -14,18 +15,25 @@ const Login = () => {
   const onSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await loginApi(email, password);
+      const response = await registerApi(name, email, password);
       dispatch(login(response.data));
     } catch (error: any) {
       console.log("error");
-      console.log(
-        error?.response?.data || "Unable to login please try again later!!"
-      );
+      console.log(error?.response?.data || "Failed to create user");
     }
   };
 
   return (
     <Form onSubmit={onSubmit}>
+      <Form.Group className="mb-3">
+        <Form.Label>Name</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Enter name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </Form.Group>
       <Form.Group className="mb-3">
         <Form.Label>Email address</Form.Label>
         <Form.Control
@@ -52,4 +60,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Rgister;
