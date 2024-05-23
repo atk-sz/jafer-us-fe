@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { loggedInTestApi, logoutApi } from "../api/auth";
+import { loggedInTestApi, logoutApi, testApi } from "../api/auth";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/slices/auth";
 import { Link } from "react-router-dom";
@@ -11,6 +11,19 @@ const Home = () => {
     try {
       await logoutApi();
       dispatch(logout());
+    } catch (error: any) {
+      console.log("error");
+      console.log(
+        error?.response?.data || "Unable to login please try again later!!"
+      );
+    }
+  };
+
+  const onClickTest = async () => {
+    try {
+      const res = await testApi();
+      console.log("res");
+      console.log(res.data);
     } catch (error: any) {
       console.log("error");
       console.log(
@@ -40,7 +53,10 @@ const Home = () => {
     >
       Home
       <button onClick={onClickLogout}>logout</button>
-      <div style={{ margin: "3%", width: "100%", display: "flex", gap: "10px" }}>
+      <button onClick={onClickTest}>test</button>
+      <div
+        style={{ margin: "3%", width: "100%", display: "flex", gap: "10px" }}
+      >
         <Link to="/login">login</Link>
         <Link to="/register">register</Link>
       </div>

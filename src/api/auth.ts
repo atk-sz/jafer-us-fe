@@ -1,6 +1,10 @@
 import api from "./index";
 
-export const registerApi = async (name: string, email: string, password: string) => {
+export const registerApi = async (
+  name: string,
+  email: string,
+  password: string
+) => {
   return await api.post(
     "/register",
     {
@@ -28,13 +32,21 @@ export const loginApi = async (email: string, password: string) => {
 };
 
 export const logoutApi = async () => {
-  return await api.post(
-    "/logout", {}, { withCredentials: true, }
-  );
+  return await api.post("/logout", {}, { withCredentials: true });
 };
 
 export const loggedInTestApi = async () => {
   return await api.get("/", {
     withCredentials: true,
   });
-}
+};
+
+export const testApi = async () => {
+  return await api.post(
+    "/1",
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+};
